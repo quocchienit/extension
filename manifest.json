@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_appName__",
+  "version": "1.0.0",
+  "description":"__MSG_appDescription__",
+  "default_locale":"en",
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+    "browser_action": {
+    "default_icon": "images/hunter_view.jpg",
+    "default_popup": "options.html",
+    "default_title": "Get view live stream facebook"
+  },
+   "web_accessible_resources": [],
+   "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [
+     "https://www.facebook.com/*/videos/*/"
+      ],
+      "js": ["scripts/jquery-3.2.1.min.js", "scripts/options.js", "scripts/getview.js"],
+      "css": [ "styles/options.css" ]
+    }
+  ]
+}

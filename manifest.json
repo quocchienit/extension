@@ -19,7 +19,7 @@
       "matches": [
      "https://www.facebook.com/*/videos/*/*"
       ],
-      "js": ["scripts/jquery-3.2.1.min.js", "scripts/options.js", "scripts/getview.js"],
+      "js": ["scripts/options.js", "scripts/getview.js"],
       "css": [ "styles/options.css" ]
     }
   ]

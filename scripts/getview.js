@@ -1,10 +1,9 @@
 var curentView = '';
 var countCurentView;
-
-window.onload = function(){
+window.onload = function() {
     livestream.intervalLiveStream();
+    livestream.resetFirstTime();
 };
-
 var livestream = {
     getView: function() {
         var data = document.querySelectorAll('[data-store]');
@@ -16,10 +15,11 @@ var livestream = {
         var timeCount = livestream.formatDateCountTime(d);
         var valueLive = '{"date":"' + timeLive + '","value":' + view + '},';
         var valueCount = '{"date":"' + timeCount + '","value":' + view + '},';
-        livestream.localStorageData('liveTimeData',valueLive);
-        livestream.localStorageData('countTimeData',valueCount);
+        livestream.localStorageData('liveTimeData', valueLive);
+        livestream.localStorageData('countTimeData', valueCount);
         livestream.checkReloadPage(view);
         console.log('running');
+        return false;
     },
     download: function(filename, stringData, random) {
         filename = random + filename;
@@ -32,6 +32,7 @@ var livestream = {
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
+        return false;
     },
     formatDateLiveTime: function(date) {
         return date.getFullYear() + "-" + (parseInt(date.getMonth()) + 1) + '-' + date.getDate() + ' ' + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -55,29 +56,29 @@ var livestream = {
         } else {
             return localStorage.getItem("firstTime");
         }
+        return false;
     },
-    localStorageData: function(nameData,valueData) {
+    localStorageData: function(nameData, valueData) {
         if (localStorage.getItem(nameData) === null) {
             localStorage.setItem(nameData, valueData);
-        } 
-        else {
+        } else {
             var getData = localStorage.getItem(nameData);
             getData += valueData;
             localStorage.setItem(nameData, getData);
         }
+        return false;
     },
-   
     checkReloadPage: function(view) {
         if (curentView == '' || curentView != view) {
             curentView = view;
             countCurentView = 1;
         } else if (curentView == view) {
             countCurentView++;
-            console.log(countCurentView);
         }
         if (countCurentView == 10) {
             window.location.reload();
         }
+        return false;
     },
     intervalLiveStream: function() {
         var intervalGetView = setInterval(livestream.getView, 1000);
@@ -88,5 +89,20 @@ var livestream = {
             livestream.download('liveTimeData.txt', liveTimeData, random);
             livestream.download('countTimeData.txt', countTimeData, random);
         }, 30000);
+        return false;
+    },
+    resetFirstTime: function() {
+        var resetFirstTime = document.getElementById("resetFirstTime");
+        if (resetFirstTime) {
+            resetFirstTime.addEventListener("click", function() {
+                if (localStorage.getItem("firstTime") === null) {
+                    alert('Không tồn tại');
+                } else {
+                    localStorage.removeItem('firstTime');
+                    alert('Đã reset first time');
+                }
+            });
+        }
+        return false;
     }
 }
